@@ -242,6 +242,7 @@ list_of_set_t* WriteSetNames(list_of_set_t* setsList, error_t* error) {
     curPointer = curPointer->next;
   }
   printf("\n");
+  *error = ALL_OK;
   return setsList;
 }
 

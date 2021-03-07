@@ -7,7 +7,10 @@
 int isFunction(char str[], int begin, int end, func_t* operation) {
   char operationsName[][MAX_FUNC_NAME_LEN] = { FUNCTION_0_ARG_NAME, FUNCTION_1_ARG_NAME, FUNCTION_2_ARG_NAME, FUNCTION_3_ARG_NAME, 0 };
   enum { FUNCTION_0_ARG_ID, FUNCTION_1_ARG_ID, FUNCTION_2_ARG_ID, FUNCTION_3_ARG_ID} operationsID;
-  list_of_set_t* (*function[])(list_of_set_t * setsList, error_t * error, ...) = { FUNCTION_0_ARG_POINTER, FUNCTION_1_ARG_POINTER, FUNCTION_2_ARG_POINTER, FUNCTION_3_ARG_POINTER};
+  function_0_arg_t functionArg0[] = { FUNCTION_0_ARG_POINTER };
+  function_1_arg_t functionArg1[] = { FUNCTION_1_ARG_POINTER };
+  function_2_arg_t functionArg2[] = { FUNCTION_2_ARG_POINTER };
+  function_3_arg_t functionArg3[] = { FUNCTION_3_ARG_POINTER };
   char lexeme[LENGTH_NAME];
   int i = 0;
 
@@ -17,19 +20,19 @@ int isFunction(char str[], int begin, int end, func_t* operation) {
     if (strcmp(operationsName[i], lexeme) == 0) {
       operationsID = i;
       if (operationsID <= (FUNCTION_0_ARG_ID)) {
-        operation->func_0_arg.function = function[operationsID];
+        operation->func_0_arg.function = functionArg0[operationsID].function;
         return ARG_0;
       }
       if (operationsID <= (FUNCTION_1_ARG_ID)) {
-        operation->func_1_arg.function = function[operationsID];
+        operation->func_1_arg.function = functionArg1[operationsID - (FUNCTION_0_ARG_ID) - 1].function;
         return ARG_1;
       }
       if (operationsID <= (FUNCTION_2_ARG_ID)) {
-        operation->func_2_arg.function = function[operationsID];
+        operation->func_2_arg.function = functionArg2[operationsID - (FUNCTION_0_ARG_ID) - (FUNCTION_1_ARG_ID) - 1].function;
         return ARG_2;
       }
       if (operationsID <= (FUNCTION_3_ARG_ID)) {
-        operation->func_3_arg.function = function[operationsID];
+        operation->func_3_arg.function = functionArg3[operationsID - (FUNCTION_0_ARG_ID) - (FUNCTION_1_ARG_ID) - (FUNCTION_2_ARG_ID) - 1].function;
         return ARG_3;
       }
     }
@@ -45,6 +48,7 @@ expression_t Parse(char str[], error_t* error) {
   int type;
   expression_t expression;
 
+  expression.type = -1;
   expression.arg1.flag = 0;
   expression.arg2.flag = 0;
   expression.result.flag = 0;
@@ -75,11 +79,11 @@ expression_t Parse(char str[], error_t* error) {
       while (str[i] != '"' && str[i] != 0) {
         i++;
       }
+      end = i;
       if (str[i] == 0 && str[end] != '"') {
         *error = NAME_ERROR;
         return expression;
       }
-      end = i;
       i++;
     }
     else {

@@ -89,7 +89,7 @@ list_of_set_t* Exit(list_of_set_t* listSet, error_t* error) {
 
 list_of_set_t* Help(list_of_set_t* listSet, error_t* error) {
   char operationsName[][MAX_FUNC_NAME_LEN] = { FUNCTION_0_ARG_NAME, FUNCTION_1_ARG_NAME, FUNCTION_2_ARG_NAME, FUNCTION_3_ARG_NAME, 0 };
-  enum { FUNCTION_0_ARG_ID, FUNCTION_1_ARG_ID, FUNCTION_2_ARG_ID, FUNCTION_3_ARG_ID } operationsID = 0;
+  typedef enum { FUNCTION_0_ARG_ID, FUNCTION_1_ARG_ID, FUNCTION_2_ARG_ID, FUNCTION_3_ARG_ID } operationsID_t;
   printf("Names\nSet names are limited to 80 characters\nElement length is limited to 80 characters\nNames containing delimiters should be written in quotation marks\n\n");
   printf("\n");
   printf("Actions with sets\n\n");
@@ -113,5 +113,6 @@ list_of_set_t* Help(list_of_set_t* listSet, error_t* error) {
   printf("Other functions\n\n");
   printf("%s - write all set\'s names.\nExample: %s\n\n", operationsName[WRITE_SET_NAMES], operationsName[WRITE_SET_NAMES]);
   printf("%s - exit from program.\nExample: %s\n\n", operationsName[EXIT], operationsName[EXIT]);
+  *error = ALL_OK;
   return listSet;
 }
