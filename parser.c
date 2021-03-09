@@ -28,11 +28,11 @@ int isFunction(char str[], int begin, int end, func_t* operation) {
         return ARG_1;
       }
       if (operationsID <= (FUNCTION_2_ARG_ID)) {
-        operation->func_2_arg.function = functionArg2[operationsID - (FUNCTION_0_ARG_ID) - (FUNCTION_1_ARG_ID) - 1].function;
+        operation->func_2_arg.function = functionArg2[operationsID - (FUNCTION_1_ARG_ID) - 1].function;
         return ARG_2;
       }
       if (operationsID <= (FUNCTION_3_ARG_ID)) {
-        operation->func_3_arg.function = functionArg3[operationsID - (FUNCTION_0_ARG_ID) - (FUNCTION_1_ARG_ID) - (FUNCTION_2_ARG_ID) - 1].function;
+        operation->func_3_arg.function = functionArg3[operationsID - (FUNCTION_2_ARG_ID) - 1].function;
         return ARG_3;
       }
     }
