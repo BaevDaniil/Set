@@ -4,7 +4,7 @@
 #include "parcer.h"
 #pragma warning(disable: 4996)
 
-int isFunction(char str[], int begin, int end, func_t* operation) {
+int isFunction(unsigned char str[], int begin, int end, func_t* operation) {
   char operationsName[][MAX_FUNC_NAME_LEN] = { FUNCTION_0_ARG_NAME, FUNCTION_1_ARG_NAME, FUNCTION_2_ARG_NAME, FUNCTION_3_ARG_NAME, 0 };
   enum { FUNCTION_0_ARG_ID, FUNCTION_1_ARG_ID, FUNCTION_2_ARG_ID, FUNCTION_3_ARG_ID} operationsID;
   function_0_arg_t functionArg0[] = { FUNCTION_0_ARG_POINTER };
@@ -14,7 +14,7 @@ int isFunction(char str[], int begin, int end, func_t* operation) {
   char lexeme[LENGTH_NAME];
   int i = 0;
 
-  strncpy(lexeme, &str[begin], end - begin);
+  strncpy(lexeme, &(char)str[begin], end - begin);
   lexeme[end - begin] = 0;
   while (operationsName[i][0] != 0) {
     if (strcmp(operationsName[i], lexeme) == 0) {
@@ -41,7 +41,7 @@ int isFunction(char str[], int begin, int end, func_t* operation) {
   return -1;
 }
 
-expression_t Parse(char str[], error_t* error) {
+expression_t Parse(unsigned char str[], error_t* error) {
   int i = 0;
   int begin, end;
   int n = 0;
@@ -64,7 +64,7 @@ expression_t Parse(char str[], error_t* error) {
     if (str[i] == '=' && n == 1) {
       i++;
       n++;
-      while ((isspace(str[i]))) {
+      while ((isspace((int)str[i]))) {
         i++;
       }
     }
@@ -88,13 +88,13 @@ expression_t Parse(char str[], error_t* error) {
     }
     else {
       begin = i;
-      while (!(isspace(str[i])) && str[i] != 0) {
+      while (!(isspace((int)str[i])) && str[i] != 0) {
         i++;
       }
       end = i;
     }
 
-    if ((end - begin) > LENGTH_NAME) {
+    if ((end - begin + 1) > LENGTH_NAME) {
       *error = NAME_ERROR;
       return expression;
     }
@@ -110,7 +110,7 @@ expression_t Parse(char str[], error_t* error) {
     else {
       if (n == 0) {
         if (end - begin > 0) {
-          strncpy(expression.result.name, &str[begin], end - begin);
+          strncpy(expression.result.name, &(char)str[begin], end - begin);
           expression.result.name[end - begin] = 0;
           expression.result.flag = 1;
           n++;
@@ -122,7 +122,7 @@ expression_t Parse(char str[], error_t* error) {
       }
       else if (n == 3 || (n == 1 && expression.result.flag == 0)) {
         if (end - begin > 0) {
-          strncpy(expression.arg1.name, &str[begin], end - begin);
+          strncpy(expression.arg1.name, &(char)str[begin], end - begin);
           expression.arg1.name[end - begin] = 0;
           expression.arg1.flag = 1;
           n++;
@@ -134,7 +134,7 @@ expression_t Parse(char str[], error_t* error) {
       }
       else if (n == 4 || n == 2) {
         if (end - begin > 0) {
-          strncpy(expression.arg2.name, &str[begin], end - begin);
+          strncpy(expression.arg2.name, &(char)str[begin], end - begin);
           expression.arg2.name[end - begin] = 0;
           expression.arg2.flag = 1;
           n++;

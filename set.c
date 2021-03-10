@@ -76,7 +76,7 @@ list_of_set_t* Delete(list_of_set_t* setsList, error_t* error, const char name[L
   }
   //Проверка на отсутствие множества в списке
   if (curPoiner->next == NULL) {
-    *error = ALL_OK;
+    *error = SET_NOT_FOUND;
     return setsList;
   }
   //Удаление множества

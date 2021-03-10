@@ -3,8 +3,7 @@
 #include <string.h>
 #include "interface.h"
 #include "set.h"
-#include <locale.h>
-//#include "error.h"
+#include "error.h"
 #pragma warning(disable: 4996)
 
 int main(void) {
@@ -13,8 +12,6 @@ int main(void) {
   list_of_set_t* listSet = NULL;
   expression_t expression;
 
-  setlocale(LC_CTYPE, "rus");
-
   printf("Enter \"Help\" for help\n");
 
   while (error == ALL_OK) {
@@ -22,7 +19,7 @@ int main(void) {
     if (error != ALL_OK) {
       break;
     }
-    expression = Parse(str, &error);
+    expression = Parse((unsigned char*)str, &error);
     if (error == ALL_OK) {
       switch (expression.type) {
       case ARG_0:
